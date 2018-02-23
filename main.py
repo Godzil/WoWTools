@@ -1,4 +1,5 @@
 #!`/usr/bin/whereis python3`
+# -*- coding: iso-8859-9 -*-
 
 import wow
 import tkinter as tk
@@ -34,7 +35,7 @@ class WOWFileViewer:
 
         self.thick_var = tk.StringVar()
         self.thick_var.set(str(self.layer.thickness * 1000))
-        self.thick_lbl = tk.Label(master, text="Layer thickness (Âµm): ")
+        self.thick_lbl = tk.Label(master, text="Layer thickness (µm): ")
         self.thick_lbl.grid(row=3, column=1, sticky=tk.E)
         self.thick_ent = tk.Entry(master, textvariable=self.thick_var)
         self.thick_ent.grid(row=3, column=2, sticky=tk.W)
