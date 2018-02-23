@@ -188,11 +188,35 @@ class WowFile:
             height = round(height + l.thickness, 5)
         return height
 
-    def get_printtime(self):
+    def get_layer(self, layer_num):
+        return self.layers[layer_num]
+
+    def get_printtime(self, human_readable=False):
         exptime = 0
         for l in self.layers:
             exptime += l.exposition_time
-        return exptime
+            exptime += l.move_time
+            exptime = round(exptime, 5)
+
+        if human_readable:
+            sec = round(exptime % 60, 0)
+            mn = round(exptime // 60, 0)
+            hour = round(mn // 60, 0)
+            mn = round(mn % 60, 0)
+            day = round(hour // 24, 0)
+            hour = round(hour % 24, 0)
+            out = ""
+            if day > 0:
+                out = " {d:g}d".format(d=day)
+            if hour > 0:
+                out = " {h:g}hr".format(h=hour)
+            if mn > 0:
+                out = out + " {m:g}min".format(m=mn)
+            if sec > 0:
+                out = out + " {s:g}s".format(s=sec)
+            return out.lstrip()
+        else:
+            return exptime
 
     def get_layercount(self):
         return len(self.layers)
