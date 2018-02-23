@@ -1,10 +1,23 @@
 #!`/usr/bin/whereis python3`
 # -*- coding: iso-8859-9 -*-
 
+import os
 import wow
 import tkinter as tk
 import tkinter.filedialog
 import sys
+
+
+try:
+    import BUILD_CONSTANTS
+    version = BUILD_CONSTANTS.BUILD_VERSION
+except ImportError:
+    try:
+        import git
+        r = git.repo.Repo('./')
+        version = r.git.describe("--tags")
+    except ImportError:
+        version = "?version unknown?"
 
 from PIL import ImageTk
 
@@ -14,7 +27,7 @@ class WOWFileViewer:
         self.currentLayer = 0
         self.master = master
         self.wowfile = wowfile
-        master.title("WOW file viewer")
+        master.title("WOW file viewer - {ver}".format(ver=version))
 
         self.layer_count = wowfile.get_layercount()
 
@@ -103,6 +116,7 @@ class WOWFileViewer:
         self.spdd_var.set(str(self.layer.speed_down))
 
 def main():
+    print("WOW File viewer {ver}".format(ver=version))
     root = tk.Tk()
     root.title("WOW file viewer")
     lbl = tk.Label(root, text="Please Wait...")
