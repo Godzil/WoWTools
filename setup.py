@@ -1,4 +1,5 @@
-import sys, osimport os.path
+import sys, os
+import os.path
 import git
 from cx_Freeze import setup, Executable
 
