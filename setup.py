@@ -1,12 +1,11 @@
-import sys, os
-import os.path
+import sys, osimport os.path
 import git
 from cx_Freeze import setup, Executable
 
 
 targetName="wowviewer"
 __version__ = "0.1.0"
-copyright = "© 2018 986-Studio"
+copyright = "(c) 2018 986-Studio"
 packages = ["datetime", "PIL", "tkinter", "wow"]
 
 base = None
