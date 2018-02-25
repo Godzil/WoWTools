@@ -3,7 +3,14 @@
 import datetime
 from PIL import Image
 
-_DefaultMovement = 5  # in mm
+# Ignore movement which are larger than this value for:
+# - Layer thickness calculation
+# - Movement time
+# This is mainly to ignore the last movement made after the final layer
+# which as the gcode is made would screw the thickness calculation on that
+# layer. (There is nothing to know that the layer ended in that specific case)
+# TODO: this need to be improved in a way. This is not completely reliable
+_IgnoreMovementLargerThan = 15 # in mm
 
 
 class layer:
@@ -15,6 +22,8 @@ class layer:
         self.number = number
         self.speed_up = 0
         self.speed_down = 0
+        self.up_distance = 0
+        self.down_distance = 0
         self.exposition = 0
         self.data = b""
         self.width = 0
@@ -48,7 +57,13 @@ def _g1(code, cur_layer):
     for param in code:
         if param[0] == "Z" or param[0] == "z":
             distance = float(param[1:])
-            if abs(distance) <= _DefaultMovement:
+            if abs(distance) <= _IgnoreMovementLargerThan:
+
+                if distance > 0:
+                    cur_layer.up_distance = distance
+                else:
+                    cur_layer.down_distance = distance
+
                 cur_layer.thickness += distance
                 cur_layer.thickness = round(cur_layer.thickness, 5)
                 if speed is not 0:
@@ -232,8 +247,8 @@ class WowFile:
             for l in self.layers:
                 # Write layer preamble
                 f.write(self._LayerStart.format(layer=l.number,
-                                                up=_DefaultMovement,
-                                                down=l.thickness - _DefaultMovement,
+                                                up=l.up_distance,
+                                                down=round(l.thickness - l.up_distance, 5),
                                                 spdu=l.speed_up,
                                                 spdd=l.speed_down).encode("ascii"))
                 # Write layer image
