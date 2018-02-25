@@ -140,14 +140,14 @@ class WowFile:
 
     _LayerStart = ";L:{layer:d};\n" \
         "M106 S0;\n" \
-        "G1 Z{up:,g} F{spdu:,g};\n" \
-        "G1 Z{down:,g} F{spdd:,g};\n" \
+        "G1 Z{up:,g} F{spdu:g};\n" \
+        "G1 Z{down:,g} F{spdd:g};\n" \
         "{{{{\n"
 
     _LayerEnd = "\n" \
         "}}}}\n" \
-        "M106 S{exp:,g};\n" \
-        "G4 S{wait:,g};\n"
+        "M106 S{exp:g};\n" \
+        "G4 S{wait:g};\n"
 
     def _decode(self, code, cur_layer):
         splitcode = code.strip(";").split(" ")
