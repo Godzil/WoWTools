@@ -15,7 +15,7 @@ except ImportError:
     try:
         import git
         r = git.repo.Repo('./')
-        version = r.git.describe("--tags")
+        version = r.git.describe("--tags", "--dirty")
     except ImportError:
         version = "?version unknown?"
 

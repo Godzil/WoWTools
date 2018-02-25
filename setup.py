@@ -6,7 +6,7 @@ from cx_Freeze import setup, Executable
 r = git.repo.Repo('./')
 
 targetName="wowviewer"
-__version__ = r.git.describe("--tags")
+__version__ = r.git.describe("--tags", "--dirty")
 
 split_ver = __version__.split(".")
 split_ver_last = split_ver[2].split("-")
