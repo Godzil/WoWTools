@@ -24,6 +24,8 @@ from PIL import ImageTk
 
 class WOWFileViewer:
 
+    _Types = ("Thickness", "Speed up", "Exposure level", "Speed down", "Exposure time", "Up movement distance")
+
     def __init__(self, master, wowfile):
         self.currentLayer = 0
         self.master = master
@@ -69,6 +71,9 @@ class WOWFileViewer:
         self.thick_lbl.grid(row=3, column=1, sticky=tk.E)
         self.thick_ent = tk.Entry(master, textvariable=self.thick_var, width=10)
         self.thick_ent.grid(row=3, column=2, sticky=tk.E + tk.W)
+        self.thick_btn = tk.Button(master, text="A",
+                                   command=lambda: self.applyValueToAllLayer(1, self.thick_var.get()))
+        self.thick_btn.grid(row=3, column=3, sticky=tk.E + tk.W + tk.N + tk.S)
 
         self.spdu_var = tk.StringVar()
         self.spdu_var.set(str(self.layer.speed_up))
@@ -76,6 +81,9 @@ class WOWFileViewer:
         self.spdu_lbl.grid(row=3, column=4, sticky=tk.E)
         self.spdu_ent = tk.Entry(master, textvariable=self.spdu_var, width=10)
         self.spdu_ent.grid(row=3, column=5, sticky=tk.E + tk.W)
+        self.spdu_btn = tk.Button(master, text="A",
+                                  command=lambda: self.applyValueToAllLayer(2, self.spdu_var.get()))
+        self.spdu_btn.grid(row=3, column=6, sticky=tk.E + tk.W + tk.N + tk.S)
 
         # Row 4
         self.exp_var = tk.StringVar()
@@ -84,6 +92,9 @@ class WOWFileViewer:
         self.exp_lbl.grid(row=4, column=1, sticky=tk.E)
         self.exp_ent = tk.Entry(master, textvariable=self.exp_var, width=10)
         self.exp_ent.grid(row=4, column=2, sticky=tk.E+tk.W)
+        self.exp_btn = tk.Button(master, text="A",
+                                  command=lambda: self.applyValueToAllLayer(3, self.exp_var.get()))
+        self.exp_btn.grid(row=4, column=3, sticky=tk.E + tk.W + tk.N + tk.S)
 
         self.spdd_var = tk.StringVar()
         self.spdd_var.set(str(self.layer.speed_down))
@@ -91,6 +102,9 @@ class WOWFileViewer:
         self.spdd_lbl.grid(row=4, column=4, sticky=tk.E)
         self.spdd_ent = tk.Entry(master, textvariable=self.spdd_var, width=10)
         self.spdd_ent.grid(row=4, column=5, sticky=tk.E+tk.W)
+        self.spdd_btn = tk.Button(master, text="A",
+                                  command=lambda: self.applyValueToAllLayer(4, self.spdd_var.get()))
+        self.spdd_btn.grid(row=4, column=6, sticky=tk.E + tk.W + tk.N + tk.S)
 
         # Row 5
         self.expt_var = tk.StringVar()
@@ -99,6 +113,9 @@ class WOWFileViewer:
         self.expt_lbl.grid(row=5, column=1, sticky=tk.E)
         self.expt_ent = tk.Entry(master, textvariable=self.expt_var, width=10)
         self.expt_ent.grid(row=5, column=2, sticky=tk.E+tk.W)
+        self.expt_btn = tk.Button(master, text="A",
+                                  command=lambda: self.applyValueToAllLayer(5, self.expt_var.get()))
+        self.expt_btn.grid(row=5, column=3, sticky=tk.E + tk.W + tk.N + tk.S)
 
         self.updist_var = tk.StringVar()
         self.updist_var.set(str(self.layer.up_distance))
@@ -106,6 +123,9 @@ class WOWFileViewer:
         self.updist_lbl.grid(row=5, column=4, sticky=tk.E)
         self.updist_ent = tk.Entry(master, textvariable=self.updist_var, width=10)
         self.updist_ent.grid(row=5, column=5, sticky=tk.E + tk.W)
+        self.updist_btn = tk.Button(master, text="A",
+                                  command=lambda: self.applyValueToAllLayer(6, self.updist_var.get()))
+        self.updist_btn.grid(row=5, column=6, sticky=tk.E + tk.W + tk.N + tk.S)
 
         # Row 6
         self.printtime_var = tk.StringVar()
@@ -137,6 +157,42 @@ class WOWFileViewer:
             self.layerChange(self.layer.number)
         except ValueError:
             tk.messagebox.showerror("WoW File Viewer", "Value error:\nOne of the layer field is invalid, please check")
+
+    def applyValueToAllLayer(self, type, value):
+        strtype = self._Types[type-1]
+        answer = tk.messagebox.askyesno("WoW File Viewer", "Are you sure you want to apply the value '{value}'\n"
+                                                           "to all layer for '{type}'?".format(value=value,
+                                                                                               type=strtype))
+        if answer == tk.YES:
+            # The fun begins!
+            try:
+                for l in self.wowfile.layers:
+                    if type == 1: # Thickness
+                        l.thickness = round(float(value) / 1000, 10)
+                    elif type == 2: # Speed up
+                        l.speed_up = round(float(value), 5)
+                    elif type == 3:  # Exposure
+                        l.exposition = round(float(value), 5)
+                    elif type == 4:  # Speed down
+                        l.speed_down = round(float(value), 5)
+                    elif type == 5:  # Exposure time
+                        l.exposition_time = round(float(value), 5)
+                    elif type == 6:  # Up movement distance
+                        l.up_distance = round(float(value), 5)
+
+                    l.update_movetime()
+
+                self.printtime_var.set(str(self.wowfile.get_printtime(human_readable=True)))
+                self.layerChange(self.layer.number)
+            except ValueError:
+                tk.messagebox.showerror("WoW File Viewer",
+                                        "Value error:\n"
+                                        "The value {value} is not valid, please check".format(value=value))
+
+    def saveAsNewFile(self):
+        newfile = tk.filedialog.asksaveasfilename(defaultextension=".wow",
+                                                  filetypes=(("WOW print file", "*.wow"),("All files", "*.*")))
+        self.wowfile.write_wow(newfile)
 
     def sliderUpdate(self, pos):
         self.layerChange(int(pos))
