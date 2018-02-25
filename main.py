@@ -138,6 +138,9 @@ class WOWFileViewer:
         self.apply_btn = tk.Button(master, text=" Apply Changes ", command=self.applyLayerChange)
         self.apply_btn.grid(row=6, column=5, sticky=tk.E+tk.W+tk.N+tk.S)
 
+        self.saveas_btn = tk.Button(master, text=" Save As ", command=self.saveAsNewFile)
+        self.saveas_btn.grid(row=6, column=6, columnspan=2, sticky=tk.E+tk.W+tk.N+tk.S)
+
         self.close_btn = tk.Button(master, text=" Exit ", command=master.quit)
         self.close_btn.grid(row=6, column=8, sticky=tk.E+tk.W+tk.N+tk.S)
 
