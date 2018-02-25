@@ -5,6 +5,7 @@ import os
 import wow
 import tkinter as tk
 import tkinter.filedialog
+import tkinter.messagebox
 import sys
 
 
@@ -114,10 +115,28 @@ class WOWFileViewer:
         self.printtime_ent = tk.Label(master, textvariable=self.printtime_var)
         self.printtime_ent.grid(row=6, column=2, sticky=tk.W)
 
-        self.close_button2 = tk.Button(master, text=" Exit ", command=master.quit)
-        self.close_button2.grid(row=6, column=8, sticky=tk.E+tk.W+tk.N+tk.S)
+        self.apply_btn = tk.Button(master, text=" Apply Changes ", command=self.applyLayerChange)
+        self.apply_btn.grid(row=6, column=5, sticky=tk.E+tk.W+tk.N+tk.S)
+
+        self.close_btn = tk.Button(master, text=" Exit ", command=master.quit)
+        self.close_btn.grid(row=6, column=8, sticky=tk.E+tk.W+tk.N+tk.S)
 
         self.layer_select.focus_force()
+
+    def applyLayerChange(self):
+        try:
+            self.layer.thickness = round(float(self.thick_var.get()) / 1000, 10)
+            self.layer.exposition = float(self.exp_var.get())
+            self.layer.exposition_time = float(self.expt_var.get())
+            self.layer.speed_up = float(self.spdu_var.get())
+            self.layer.speed_down = float(self.spdd_var.get())
+            self.layer.up_distance = float(self.updist_var.get())
+            self.layer.update_movetime()
+
+            self.printtime_var.set(str(self.wowfile.get_printtime(human_readable=True)))
+            self.layerChange(self.layer.number)
+        except ValueError:
+            tk.messagebox.showerror("WoW File Viewer", "Value error:\nOne of the layer field is invalid, please check")
 
     def sliderUpdate(self, pos):
         self.layerChange(int(pos))
