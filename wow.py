@@ -37,6 +37,15 @@ class layer:
         self.image = self.image.rotate(90, expand=True)
         self.data = data  # For now keep it until we have a packing function
 
+    def update_movetime(self):
+        if self.speed_up > 0 or self.speed_down > 0:
+            self.move_time = abs(self.up_distance) / (self.speed_up / 60)
+            self.move_time += abs(self.up_distance - self.thickness) / (self.speed_down / 60)
+        else:
+            # Absurdely huge number to show that there is a problem
+            # (movement set to 0 is not a wanted value)
+            self.move_time = 9999999
+
     def get_packed_image(self):
         return self.data
 
