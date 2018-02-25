@@ -43,7 +43,8 @@ class WOWFileViewer:
         tickinterval = self.layer_count/10
         self.layer_select = tk.Scale(master, from_=1, to=self.layer_count,
                                      command=self.sliderUpdate, orient=tk.VERTICAL,
-                                     resolution=1, length=400, tickinterval=tickinterval)
+                                     resolution=-1, length=400, tickinterval=tickinterval,
+                                     takefocus=1)
         self.layer_select.grid(row=2, column=4)
 
         self.thick_var = tk.StringVar()
@@ -91,6 +92,8 @@ class WOWFileViewer:
         self.close_button2 = tk.Button(master, text=" Exit ", command=master.quit)
         self.close_button2.grid(row=6, column=4)
 
+        self.layer_select.focus_force()
+
     def sliderUpdate(self, pos):
         self.layerChange(int(pos))
 
@@ -129,6 +132,7 @@ def main():
     wowfile = wow.WowFile(filename)
     lbl = None
     my_gui = WOWFileViewer(root, wowfile)
+    root.focus_force()
     root.mainloop()
 
 
