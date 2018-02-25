@@ -75,6 +75,13 @@ class WOWFileViewer:
         self.spdd_ent = tk.Entry(master, textvariable=self.spdd_var)
         self.spdd_ent.grid(row=4, column=4, sticky=tk.W)
 
+        self.updist_var = tk.StringVar()
+        self.updist_var.set(str(self.layer.up_distance))
+        self.updist_lbl = tk.Label(master, text="Up mvmt distance (mm): ")
+        self.updist_lbl.grid(row=5, column=3, sticky=tk.E)
+        self.updist_ent = tk.Entry(master, textvariable=self.updist_var)
+        self.updist_ent.grid(row=5, column=4, sticky=tk.W)
+
         self.expt_var = tk.StringVar()
         self.expt_var.set(str(self.layer.exposition_time))
         self.expt_lbl = tk.Label(master, text="Layer exposure time (in sec): ")
@@ -117,6 +124,7 @@ class WOWFileViewer:
         self.expt_var.set(str(self.layer.exposition_time))
         self.spdu_var.set(str(self.layer.speed_up))
         self.spdd_var.set(str(self.layer.speed_down))
+        self.updist_var.set(str(self.layer.up_distance))
 
 def main():
     print("WOW File viewer {ver}".format(ver=version))
