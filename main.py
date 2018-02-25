@@ -115,16 +115,6 @@ class WOWFileViewer:
         self.layer_select.set(int(self.layern_var.get()))
         return True
 
-    def layerUp(self):
-        if self.currentLayer < self.wowfile.get_layercount():
-            self.currentLayer += 1
-            self.layerChange(self.currentLayer)
-
-    def layerDown(self):
-        if self.currentLayer > 0:
-            self.currentLayer -= 1
-            self.layerChange(self.currentLayer)
-
     def layerChange(self, layer):
         self.layer = self.wowfile.get_layer(layer - 1)
         self.img = ImageTk.PhotoImage(self.layer.image)
