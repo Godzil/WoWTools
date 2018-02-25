@@ -47,6 +47,13 @@ class WOWFileViewer:
                                      takefocus=1)
         self.layer_select.grid(row=2, column=4)
 
+        self.layern_var = tk.StringVar()
+        self.layern_var.set(str(self.layer.number))
+        self.layern_ent = tk.Entry(master, textvariable=self.layern_var)
+        self.layern_ent.grid(row=1, column=3, sticky=tk.E)
+        self.layern_btn = tk.Button(master, text=" Change ", command=self.layerManualSet)
+        self.layern_btn.grid(row=1, column=4)
+
         self.thick_var = tk.StringVar()
         self.thick_var.set(str(self.layer.thickness * 1000))
         self.thick_lbl = tk.Label(master, text="Layer thickness (µm): ")
@@ -104,6 +111,10 @@ class WOWFileViewer:
     def sliderUpdate(self, pos):
         self.layerChange(int(pos))
 
+    def layerManualSet(self):
+        self.layer_select.set(int(self.layern_var.get()))
+        return True
+
     def layerUp(self):
         if self.currentLayer < self.wowfile.get_layercount():
             self.currentLayer += 1
@@ -119,6 +130,7 @@ class WOWFileViewer:
         self.img = ImageTk.PhotoImage(self.layer.image)
         self.layer_img.configure(image=self.img)
         self.label.configure(text="Layer: {num} / {tot}".format(num=self.layer.number, tot=self.layer_count))
+        self.layern_var.set(str(self.layer.number))
         self.thick_var.set(str(self.layer.thickness * 1000))
         self.exp_var.set(str(self.layer.exposition))
         self.expt_var.set(str(self.layer.exposition_time))
