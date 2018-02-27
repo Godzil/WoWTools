@@ -29,6 +29,7 @@ class layer:
         self.width = 0
         self.height = 0
         self.image = None
+        self.illuminated_pixel = 0
 
     def set_image(self, data, size):
         self.width = size[0]
@@ -36,6 +37,9 @@ class layer:
         self.image = Image.frombytes("1", size, data, "raw", "1;R")
         self.image = self.image.rotate(90, expand=True)
         self.data = data  # For now keep it until we have a packing function
+        for pixel in self.image.getdata():
+            if pixel == 255:
+                self.illuminated_pixel += 1
 
     def update_movetime(self):
         if self.speed_up > 0 or self.speed_down > 0:
@@ -149,12 +153,13 @@ class WowFile:
         "M106 S{exp:g};\n" \
         "G4 S{wait:g};\n"
 
+    _MaxBuildArea = (102, 56)  # in mm
+
     def _decode(self, code, cur_layer):
         splitcode = code.strip(";").split(" ")
         if code[0] == 'G' or code[0] == 'g' or code[0] == 'M' or code[0] == 'm':
             try:
                 self._GCodes[splitcode[0]](splitcode, cur_layer)
-
 
             except KeyError:
                 raise Exception("Not support gcode found: {code}".format(code=code))
@@ -214,6 +219,15 @@ class WowFile:
 
     def get_layer(self, layer_num):
         return self.layers[layer_num]
+
+    def get_volume(self):
+        pixel_width = self._MaxBuildArea[0] / self.Width
+        pixel_height = self._MaxBuildArea[1] / self.Height
+        volume = 0
+        for l in self.layers:
+            volume += pixel_width * pixel_height * l.thickness * l.illuminated_pixel
+
+        return volume
 
     def get_printtime(self, human_readable=False):
         exptime = 0

@@ -135,14 +135,22 @@ class WOWFileViewer:
         self.printtime_ent = tk.Label(master, textvariable=self.printtime_var)
         self.printtime_ent.grid(row=6, column=2, sticky=tk.W)
 
+        self.estvol_var = tk.StringVar()
+        self.estvol_var.set(str(wowfile.get_volume()))
+        self.estvol_lbl = tk.Label(master, text="Estimated Volume (mm^3): ")
+        self.estvol_lbl.grid(row=6, column=4, sticky=tk.E)
+        self.estvol_ent = tk.Label(master, textvariable=self.estvol_var)
+        self.estvol_ent.grid(row=6, column=5, sticky=tk.W)
+
+        # Row 7
         self.apply_btn = tk.Button(master, text=" Apply Changes ", command=self.applyLayerChange)
-        self.apply_btn.grid(row=6, column=5, sticky=tk.E+tk.W+tk.N+tk.S)
+        self.apply_btn.grid(row=7, column=5, sticky=tk.E+tk.W+tk.N+tk.S)
 
         self.saveas_btn = tk.Button(master, text=" Save As ", command=self.saveAsNewFile)
-        self.saveas_btn.grid(row=6, column=6, columnspan=2, sticky=tk.E+tk.W+tk.N+tk.S)
+        self.saveas_btn.grid(row=7, column=6, columnspan=2, sticky=tk.E+tk.W+tk.N+tk.S)
 
         self.close_btn = tk.Button(master, text=" Exit ", command=master.quit)
-        self.close_btn.grid(row=6, column=8, sticky=tk.E+tk.W+tk.N+tk.S)
+        self.close_btn.grid(row=7, column=8, sticky=tk.E+tk.W+tk.N+tk.S)
 
         self.layer_select.focus_force()
 
