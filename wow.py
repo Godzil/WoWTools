@@ -1,4 +1,5 @@
 #!`/usr/bin/whereis python3`
+# -*- coding: iso-8859-9 -*-
 
 import datetime
 from PIL import Image
@@ -228,6 +229,15 @@ class WowFile:
         volume = 0
         for l in self.layers:
             volume += pixel_width * pixel_height * l.thickness * l.illuminated_pixel
+
+        if human_readable:
+            unit = ["mm³", "cm³", "m³", "dm³", "km³"]
+            unit_idx = 0
+            # Value is in mm³
+            while volume > 1000.:
+                unit_idx += 1
+                volume /= 1000.
+            return "{vol} {unit}".format(vol=round(volume, 2), unit=unit[unit_idx])
 
         return volume
 
