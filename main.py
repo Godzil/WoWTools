@@ -136,8 +136,8 @@ class WOWFileViewer:
         self.printtime_ent.grid(row=6, column=2, sticky=tk.W)
 
         self.estvol_var = tk.StringVar()
-        self.estvol_var.set(str(wowfile.get_volume()))
-        self.estvol_lbl = tk.Label(master, text="Estimated Volume (mm^3): ")
+        self.estvol_var.set(str(wowfile.get_volume(human_readable=True)))
+        self.estvol_lbl = tk.Label(master, text="Estimated Volume: ")
         self.estvol_lbl.grid(row=6, column=4, sticky=tk.E)
         self.estvol_ent = tk.Label(master, textvariable=self.estvol_var)
         self.estvol_ent.grid(row=6, column=5, sticky=tk.W)
@@ -164,6 +164,7 @@ class WOWFileViewer:
             self.layer.up_distance = float(self.updist_var.get())
             self.layer.update_movetime()
 
+            self.estvol_var.set(str(self.wowfile.get_volume(human_readable=True)))
             self.printtime_var.set(str(self.wowfile.get_printtime(human_readable=True)))
             self.layerChange(self.layer.number)
         except ValueError:
@@ -194,6 +195,7 @@ class WOWFileViewer:
                     l.update_movetime()
 
                 self.printtime_var.set(str(self.wowfile.get_printtime(human_readable=True)))
+                self.estvol_var.set(str(self.wowfile.get_volume(human_readable=True)))
                 self.layerChange(self.layer.number)
             except ValueError:
                 tk.messagebox.showerror("WoW File Viewer",
