@@ -231,7 +231,7 @@ class WowFile:
             volume += pixel_width * pixel_height * l.thickness * l.illuminated_pixel
 
         if human_readable:
-            unit = ["mmÂ³", "cmÂ³", "mÂ³", "dmÂ³", "kmÂ³"]
+            unit = ["mm³", "cm³", "m³", "dm³", "km³"]
             unit_idx = 0
             # Value is in mmÂ³
             while volume > 1000.:
