@@ -22,6 +22,7 @@ except ImportError:
 
 from PIL import ImageTk
 
+
 class WOWFileViewer:
 
     _Types = ("Thickness", "Speed up", "Exposure level", "Speed down", "Exposure time", "Up movement distance")
@@ -143,6 +144,13 @@ class WOWFileViewer:
         self.estvol_ent.grid(row=6, column=5, sticky=tk.W)
 
         # Row 7
+        self.zheight_var = tk.StringVar()
+        self.zheight_var.set(str(wowfile.get_zheight()))
+        self.zheight_lbl = tk.Label(master, text="Printed height (mm): ")
+        self.zheight_lbl.grid(row=7, column=1, sticky=tk.E)
+        self.zheight_ent = tk.Label(master, textvariable=self.zheight_var)
+        self.zheight_ent.grid(row=7, column=2, sticky=tk.W)
+
         self.apply_btn = tk.Button(master, text=" Apply Changes ", command=self.applyLayerChange)
         self.apply_btn.grid(row=7, column=5, sticky=tk.E+tk.W+tk.N+tk.S)
 
@@ -164,6 +172,7 @@ class WOWFileViewer:
             self.layer.up_distance = float(self.updist_var.get())
             self.layer.update_movetime()
 
+            self.zheight_var.set(str(self.wowfile.get_zheight()))
             self.estvol_var.set(str(self.wowfile.get_volume(human_readable=True)))
             self.printtime_var.set(str(self.wowfile.get_printtime(human_readable=True)))
             self.layerChange(self.layer.number)
@@ -194,6 +203,7 @@ class WOWFileViewer:
 
                     l.update_movetime()
 
+                self.zheight_var.set(str(self.wowfile.get_zheight()))
                 self.printtime_var.set(str(self.wowfile.get_printtime(human_readable=True)))
                 self.estvol_var.set(str(self.wowfile.get_volume(human_readable=True)))
                 self.layerChange(self.layer.number)
