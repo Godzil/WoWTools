@@ -36,10 +36,9 @@ class layer:
         self.height = size[1]
         self.image = Image.frombytes("1", size, data, "raw", "1;R")
         self.image = self.image.rotate(90, expand=True)
-        self.data = data  # For now keep it until we have a packing function
-        for pixel in self.image.getdata():
-            if pixel == 255:
-                self.illuminated_pixel += 1
+        self.data = data
+        # TODO: Run that in the background
+        self.illuminated_pixel = sum(_b2ba[int(b)] for b in data)
 
     def update_movetime(self):
         if self.speed_up > 0 or self.speed_down > 0:
@@ -114,6 +113,9 @@ def _m106(code, cur_layer):
                 value = float(param[1:])
                 if value > 0:
                     cur_layer.set_exposition(value)
+
+
+_b2ba = [bin(i).count("0") for i in range(0, 256)]
 
 
 class WowFile:
