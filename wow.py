@@ -220,9 +220,9 @@ class WowFile:
     def get_layer(self, layer_num):
         return self.layers[layer_num]
 
-    def get_volume(self):
-        pixel_width = self._MaxBuildArea[0] / self.Width
-        pixel_height = self._MaxBuildArea[1] / self.Height
+    def get_volume(self, human_readable=False):
+        pixel_width = self._MaxBuildArea[0] / self.Height
+        pixel_height = self._MaxBuildArea[1] / self.Width
         volume = 0
         for l in self.layers:
             volume += pixel_width * pixel_height * l.thickness * l.illuminated_pixel
