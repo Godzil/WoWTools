@@ -17,7 +17,7 @@ If you are under windows and just want use the GUI tool, get it from one of the 
 Else you can use pip to install the library and viewer:
 
 ```
-sudo pip install WowFiles
+sudo pip install WowFile
 ```
 
 This will add "wowviewer" in your path, and you can access the `WowFile` class from python.
