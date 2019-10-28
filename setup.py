@@ -19,7 +19,6 @@ setuptools.setup(
     packages=["WowFile"],
     install_requires=[
         "Pillow",
-        "tkinter",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
