@@ -7,6 +7,7 @@ import tkinter as tk
 import tkinter.filedialog
 import tkinter.messagebox
 import sys
+from PIL import ImageTk
 from . import __version__
 
 
