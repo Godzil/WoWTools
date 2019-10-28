@@ -8,6 +8,8 @@ WowViewer
 
 A graphical tool using WowFile to display and change parameter in SparkMaker WOW Files
 
+![wowviewer interface](wowviewer.png)
+
 
 Install
 -------
