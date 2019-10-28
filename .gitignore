@@ -3,3 +3,4 @@ venv/
 *.wow
 *.png
 *.pyc
+.idea/

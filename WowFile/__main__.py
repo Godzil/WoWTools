@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import WowFile
+from . import WoWFile
 
 if __name__ == "__main__":
-    WowFile.tkViewer.main()
+    WoWFile.main()

@@ -3,6 +3,7 @@
 
 import datetime
 from PIL import Image
+from . import __version__
 
 # Ignore movement which are larger than this value for:
 # - Layer thickness calculation
@@ -297,6 +298,7 @@ class WowFile:
 
 
 if __name__ == "__main__":
+    print("WowFile v{ver}".format(ver=__version__))
     wN = WowFile("hollow_out_lcd_w.wow")
     print("Height in mm: {h}".format(h=wN.get_zheight()))
     print("Approx printing time: {exp}".format(exp=str(datetime.timedelta(seconds=wN.get_printtime()))))
