@@ -1,4 +1,4 @@
-Pillow>=5.0.0
-Pillow-PIL==0.1.dev0
-cx_Freeze==6.0b1
-GitPython==2.1.8
+Pillow>=9.0.0
+Pillow-PIL>=0.1.dev0
+cx-Freeze>=6.13.1
+GitPython>=3.1.29
