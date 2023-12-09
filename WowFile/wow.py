@@ -80,7 +80,7 @@ def _g1(code, cur_layer):
 
                 cur_layer.thickness += distance
                 cur_layer.thickness = round(cur_layer.thickness, 5)
-                if speed is not 0:
+                if speed != 0:
                     cur_layer.move_time += abs(distance) / (speed / 60)
                     if distance > 0:
                         cur_layer.speed_up = speed
@@ -89,7 +89,7 @@ def _g1(code, cur_layer):
 
         elif param[0] == "F" or param[0] == "f":
             speed = float(param[1:])
-            if distance is not 0:
+            if distance != 0:
                 cur_layer.move_time += abs(distance) / (speed / 60)
                 if distance > 0:
                     cur_layer.speed_up = speed
