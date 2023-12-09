@@ -49,7 +49,7 @@ class WOWFileViewer:
         tickinterval = self.layer_count/10
         self.layer_select = tk.Scale(master, from_=1, to=self.layer_count,
                                      command=self.sliderUpdate, orient=tk.VERTICAL,
-                                     resolution=-1, length=400, tickinterval=tickinterval,
+                                     resolution=1, length=400, tickinterval=tickinterval,
                                      takefocus=1)
         self.layer_select.grid(row=2, column=8, sticky=tk.E+tk.W+tk.N+tk.S)
 
@@ -232,7 +232,7 @@ def main():
     lbl = tk.Label(root, text="Please Wait...")
     lbl.grid(row=1, column=1)
     filename = tkinter.filedialog.askopenfilename(filetypes=(("WOW print file", "*.wow"),("All files", "*.*")))
-    if filename is "":
+    if filename == "":
         sys.exit(0)
 
     lbl.configure(text="")
